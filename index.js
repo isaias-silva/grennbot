@@ -30,10 +30,9 @@ server.use((req, res, next) => {
 server.use(express.static(__dirname + '/public'));
 
 server.get('/', (req, res) => { res.status(200).render('index.ejs') })
-server.post('/mailacess/:key',async (req,res)=>{
- await view(req.body.url)
-  
-  
+server.post('/acess/yt/:key',async (req,res)=>{
+ await view(req.body.url).then((x)=>{res.send('20 seconds')})
+   
 })
 
 server.listen(port, (x) => { console.log(`on in ${port}`) })
