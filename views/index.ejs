@@ -17,10 +17,26 @@
     
     <div class="content">
         <img src="https://cdn.pixabay.com/photo/2017/01/31/17/43/android-2025857__480.png" alt="image">
+        <div class="logs">
+          
+        </div>
     </div>
+
     <footer>
         <p>by ZackBLack</p>
     </footer>
 </body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const logs= document.querySelector('.logs')
+       const socket=io()
+       socket.on('connect',(x)=>{
+      socket.emit('msg','ok') 
+      logs.innerHTML+=`<p>[!]session init[!]</p>`
+    })
+    socket.on('msg',(msg)=>{
+       logs.innerHTML+=`<p>${msg}</p>`
+    })
+</script>
 
 </html>

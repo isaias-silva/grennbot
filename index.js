@@ -3,9 +3,9 @@ const server = express()
 const session = require("express-session")
 const bodyparse = require('body-parser')
 const path = require("path")
-const view = require("./src/view")
 const port = process.env.PORT || 8081
-
+const http = require('http').Server(server);
+const io = require('socket.io')(http)
 
 server.use(session({ secret: 'adklfkkdçsl', resave: true, saveUninitialized: true }))
 server.use(bodyparse.urlencoded({
@@ -29,10 +29,21 @@ server.use((req, res, next) => {
 
 server.use(express.static(__dirname + '/public'));
 
-server.get('/', (req, res) => { res.status(200).render('index.ejs') })
-server.post('/acess/yt/:key',async (req,res)=>{
- await view(req.body.url).then((x)=>{res.send('20 seconds')})
-   
+server.get('/', (req, res) => {
+    res.status(200).render('index.ejs')
+
+
+
+
+})
+server.post('/acess/attack/:key', (req, res,) => {
+    const ipCliente = req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+
+    io.emit('msg',`[${ipCliente}]---> attack`)
+res.send('ok')
+
+
 })
 
-server.listen(port, (x) => { console.log(`on in ${port}`) })
+
+http.listen(port, (x) => { console.log(`on in ${port}`) })
